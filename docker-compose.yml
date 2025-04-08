@@ -1,0 +1,24 @@
+version: '3.8'
+
+services:
+  cdq-recruitment-app:
+    image: 'cdq-recruitment-task:latest'
+    build:
+      context: .
+    container_name: cdq-recruitment-app
+    depends_on:
+      - cdq-recruitment-app-database
+    environment:
+      - SPRING_DATASOURCE_URL=jdbc:postgresql://cdq-recruitment-app-database:5432/cdq-recruitment-task
+    ports:
+      - "8105:8105"
+
+  cdq-recruitment-app-database:
+    image: postgres
+    container_name: cdq-recruitment-app-database
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - POSTGRES_DB=cdq-recruitment-task
+    ports:
+      - "5435:5432"
