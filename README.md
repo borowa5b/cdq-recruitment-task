@@ -56,4 +56,4 @@ To start the application locally run gradle task `gradle bootRun`.
 
 ### Swagger documentation
 
-After starting application is has Swagger documentation available at http://localhost:8105/swagger-ui/index.html.
+After starting the application, it has Swagger documentation available at http://localhost:8105/swagger-ui/index.html.
