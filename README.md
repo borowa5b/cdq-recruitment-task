@@ -9,7 +9,7 @@ Create and edit actions creates task which is executed asynchronously.
 The slowdown of task processing can be configured using `cdq-recruitment-task.slowdown-in-millis` variable.
 
 Additionally person response from get all and single person endpoints is cached for 1 minute.
-This time can be change via `cdq-recruitment-task.person-cache-time-in-seconds` variable.
+This time can be changed via `cdq-recruitment-task.person-cache-time-in-seconds` variable.
 
 ### Author
 
