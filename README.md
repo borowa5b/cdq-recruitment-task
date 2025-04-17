@@ -20,9 +20,9 @@ Mateusz Borowski <[borowa5b@gmail.com](mailto:borowa5b@gmail.com)>
 - Gradle 8.13
 - JDK 21
 - Spring boot 3.4.4
-- PostgreSQL DB
+- MongoDB
 
-Libraries: Lombok, jUnit, Mockito, AssertJ, TestContainers, NanoId, Zalando Problem, Flyway
+Libraries: Lombok, jUnit, Mockito, AssertJ, TestContainers, NanoId, Zalando Problem
 
 ### Building
 
@@ -36,7 +36,7 @@ The application uses Gradle. Therefore, it can be built by running `gradle clean
 ### Running bundled
 
 Application can be started as a bundle with database by running command below in the root directory.
-Database tables are created automatically via flyway during application startup.
+Database documents are created automatically while application is running.
 
 ```bash
 ./gradlew clean build && docker-compose up --build
@@ -47,8 +47,8 @@ Database tables are created automatically via flyway during application startup.
 - Docker
 - JDK 21
 - any IDE
-- PostgreSQL database with created DB `cdq-recruitment-task`. Credentials can be configured using
-  `application.properties` file and `spring.datasource.*` properties.
+- MongoDB database - database URI can be configured in `application.properties` file via `spring.data.mongodb.uri`
+  property.
 
 ### Running locally.
 

@@ -9,7 +9,7 @@ import pl.borowa5b.cdq_recruitment_task.domain.vo.Stage;
 public class TaskStatus {
 
     private Stage stage;
-    private int progress;
+    private Integer progress;
 
     public void setProgress(final int progress) {
         this.progress = progress;

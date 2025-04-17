@@ -1,7 +1,7 @@
 package pl.borowa5b.cdq_recruitment_task.helper;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 import pl.borowa5b.cdq_recruitment_task.infrastructure.entity.PersonEntity;
@@ -29,13 +29,13 @@ class Database {
 
 
 @Repository
-interface TestPersonRepository extends JpaRepository<PersonEntity, String> {
+interface TestPersonRepository extends MongoRepository<PersonEntity, String> {
 }
 
 @Repository
-interface TestTaskResultRepository extends JpaRepository<TaskResultEntity, String> {
+interface TestTaskResultRepository extends MongoRepository<TaskResultEntity, String> {
 }
 
 @Repository
-interface TestTaskRepository extends JpaRepository<TaskEntity, String> {
+interface TestTaskRepository extends MongoRepository<TaskEntity, String> {
 }

@@ -1,7 +1,13 @@
 package pl.borowa5b.cdq_recruitment_task.infrastructure.repository;
 
 import lombok.AllArgsConstructor;
-import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.domain.Example;
+import org.springframework.data.domain.ExampleMatcher;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.mongodb.core.MongoTemplate;
+import org.springframework.data.mongodb.core.query.Criteria;
+import org.springframework.data.mongodb.core.query.Query;
+import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.stereotype.Component;
 import org.springframework.stereotype.Repository;
 import pl.borowa5b.cdq_recruitment_task.domain.model.Task;
@@ -10,17 +16,32 @@ import pl.borowa5b.cdq_recruitment_task.domain.vo.TaskId;
 import pl.borowa5b.cdq_recruitment_task.infrastructure.entity.TaskEntity;
 import pl.borowa5b.cdq_recruitment_task.infrastructure.entity.TaskResultEntity;
 
+import java.util.List;
 import java.util.stream.Collectors;
 
 @Component
 @AllArgsConstructor
 public class DefaultTaskRepository implements TaskRepository {
 
-    private final SpringJpaTaskRepository repository;
+    private final SpringMongoTaskRepository repository;
+    private final MongoTemplate mongoTemplate;
 
     @Override
     public Task findBy(final TaskId taskId) {
         return repository.findById(taskId.value()).map(TaskEntity::toDomain).orElse(null);
+    }
+
+    @Override
+    public List<Task> findAll(final Task probe, final Pageable pageable) {
+        final var matcher = ExampleMatcher.matching()
+                .withIgnoreNullValues()
+                .withIgnoreCase();
+        final var example = Example.of(TaskEntity.fromDomain(probe), matcher);
+        final var query = new Query()
+                .addCriteria(new Criteria().alike(example))
+                .with(pageable)
+                .limit(pageable.getPageSize() + 1);
+        return mongoTemplate.find(query, TaskEntity.class).stream().map(TaskEntity::toDomain).toList();
     }
 
     @Override
@@ -40,5 +61,5 @@ public class DefaultTaskRepository implements TaskRepository {
 }
 
 @Repository
-interface SpringJpaTaskRepository extends JpaRepository<TaskEntity, String> {
+interface SpringMongoTaskRepository extends MongoRepository<TaskEntity, String> {
 }

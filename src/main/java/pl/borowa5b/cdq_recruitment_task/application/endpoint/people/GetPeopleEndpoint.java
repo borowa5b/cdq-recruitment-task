@@ -31,7 +31,7 @@ public class GetPeopleEndpoint {
     PageResponse<PersonResponse> getPeople(final GetPeopleFilter filter, final PageFilter pageFilter) {
         validate(filter, pageFilter);
         final var peopleDetails = finder.findBy(filter.toQuery(), pageFilter.toPage());
-        final var data = peopleDetails.data().stream().map(PersonResponse::fromDetails).toList();
+        final var data = peopleDetails.data().stream().map(PersonResponse::fromDomain).toList();
         return new PageResponse<>(data, peopleDetails.pagination());
     }
 

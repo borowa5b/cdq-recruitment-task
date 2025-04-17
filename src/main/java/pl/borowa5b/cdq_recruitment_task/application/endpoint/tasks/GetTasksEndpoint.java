@@ -31,7 +31,7 @@ public class GetTasksEndpoint {
     PageResponse<TaskResponse> getTasks(final GetTasksFilter filter, final PageFilter pageFilter) {
         validate(filter, pageFilter);
         final var tasksDetails = finder.findBy(filter.toQuery(), pageFilter.toPage());
-        final var data = tasksDetails.data().stream().map(TaskResponse::fromDetails).toList();
+        final var data = tasksDetails.data().stream().map(TaskResponse::fromDomain).toList();
         return new PageResponse<>(data, tasksDetails.pagination());
     }
 

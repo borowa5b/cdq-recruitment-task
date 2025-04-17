@@ -31,6 +31,6 @@ public class GetTaskEndpoint {
             @PathVariable final String taskId
     ) {
         final var taskDetails = finder.findBy(new TaskId(taskId));
-        return TaskResponse.fromDetails(taskDetails);
+        return TaskResponse.fromDomain(taskDetails);
     }
 }

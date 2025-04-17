@@ -31,6 +31,6 @@ public class GetPersonEndpoint {
             @PathVariable final String personId
     ) {
         final var personDetails = finder.findBy(new PersonId(personId));
-        return PersonResponse.fromDetails(personDetails);
+        return PersonResponse.fromDomain(personDetails);
     }
 }
