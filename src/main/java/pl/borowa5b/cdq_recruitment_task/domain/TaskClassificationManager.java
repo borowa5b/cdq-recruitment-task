@@ -27,6 +27,7 @@ public class TaskClassificationManager {
 
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     public void beginClassification(final TaskId taskId,
+                                    final String fieldName,
                                     final String valueBefore,
                                     final String currentValue) {
         final var task = taskRepository.findBy(taskId);
@@ -36,6 +37,7 @@ public class TaskClassificationManager {
             final var taskResult = new TaskResult(
                     taskResultId,
                     taskId,
+                    fieldName,
                     valueBefore,
                     currentValue,
                     classification.first(),

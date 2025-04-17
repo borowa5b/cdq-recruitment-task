@@ -30,6 +30,7 @@ class TaskTest {
         final var taskResult = new TaskResult(
                 new TaskResultId("TKR1232421"),
                 taskId,
+                "fieldName",
                 "valueBefore",
                 "currentValue",
                 0.5,

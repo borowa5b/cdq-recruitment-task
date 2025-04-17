@@ -24,6 +24,7 @@ public class TaskResultEntity {
     @Id
     private String id;
     private String taskId;
+    private String fieldName;
     private String valueBefore;
     private String currentValue;
     private Double dissimilarity;
@@ -37,12 +38,14 @@ public class TaskResultEntity {
 
     private TaskResultEntity(final String id,
                              final String taskId,
+                             final String fieldName,
                              final String valueBefore,
                              final String currentValue,
                              final Double dissimilarity,
                              final Classification classification) {
         this.id = id;
         this.taskId = taskId;
+        this.fieldName = fieldName;
         this.valueBefore = valueBefore;
         this.currentValue = currentValue;
         this.dissimilarity = dissimilarity;
@@ -53,6 +56,7 @@ public class TaskResultEntity {
         return new TaskResult(
                 new TaskResultId(id),
                 new TaskId(taskId),
+                fieldName,
                 valueBefore,
                 currentValue,
                 dissimilarity,
@@ -68,6 +72,7 @@ public class TaskResultEntity {
         return new TaskResultEntity(
                 taskResult.id().value(),
                 taskResult.taskId().value(),
+                taskResult.fieldName(),
                 taskResult.valueBefore(),
                 taskResult.currentValue(),
                 taskResult.dissimilarity(),

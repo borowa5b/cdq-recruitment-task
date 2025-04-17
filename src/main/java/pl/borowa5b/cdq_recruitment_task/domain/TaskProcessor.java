@@ -7,6 +7,8 @@ import org.springframework.transaction.annotation.Transactional;
 import pl.borowa5b.cdq_recruitment_task.domain.model.Person;
 import pl.borowa5b.cdq_recruitment_task.domain.vo.TaskId;
 
+import static pl.borowa5b.cdq_recruitment_task.domain.model.Person.*;
+
 @Component
 @AllArgsConstructor
 public class TaskProcessor {
@@ -16,10 +18,10 @@ public class TaskProcessor {
     @Async
     @Transactional
     public void process(final TaskId taskId, final Person personBefore, final Person currentPerson) {
-        classificationManager.beginClassification(taskId, resolveName(personBefore), resolveName(currentPerson));
-        classificationManager.beginClassification(taskId, resolveSurname(personBefore), resolveSurname(currentPerson));
-        classificationManager.beginClassification(taskId, resolveBirthDate(personBefore), resolveBirthDate(currentPerson));
-        classificationManager.beginClassification(taskId, resolveCompany(personBefore), resolveCompany(currentPerson));
+        classificationManager.beginClassification(taskId, NAME_FIELD, resolveName(personBefore), resolveName(currentPerson));
+        classificationManager.beginClassification(taskId, SURNAME_FIELD, resolveSurname(personBefore), resolveSurname(currentPerson));
+        classificationManager.beginClassification(taskId, BIRTH_DATE_FIELD, resolveBirthDate(personBefore), resolveBirthDate(currentPerson));
+        classificationManager.beginClassification(taskId, COMPANY_FIELD, resolveCompany(personBefore), resolveCompany(currentPerson));
     }
 
     private String resolveName(final Person person) {

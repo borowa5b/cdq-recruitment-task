@@ -13,6 +13,7 @@ import java.time.LocalDate;
 
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.verifyNoMoreInteractions;
+import static pl.borowa5b.cdq_recruitment_task.domain.model.Person.*;
 
 @ExtendWith(MockitoExtension.class)
 class TaskProcessorTest {
@@ -36,10 +37,10 @@ class TaskProcessorTest {
         taskProcessor.process(taskId, personBefore, currentPerson);
 
         // then
-        verify(classificationManager).beginClassification(taskId, "John", "Andrew");
-        verify(classificationManager).beginClassification(taskId, "Doe", "Doe");
-        verify(classificationManager).beginClassification(taskId, "1990-01-01", "1990-01-01");
-        verify(classificationManager).beginClassification(taskId, "Google", "Google");
+        verify(classificationManager).beginClassification(taskId, NAME_FIELD, "John", "Andrew");
+        verify(classificationManager).beginClassification(taskId, SURNAME_FIELD, "Doe", "Doe");
+        verify(classificationManager).beginClassification(taskId, BIRTH_DATE_FIELD, "1990-01-01", "1990-01-01");
+        verify(classificationManager).beginClassification(taskId, COMPANY_FIELD, "Google", "Google");
         verifyNoMoreInteractions(classificationManager);
     }
 }
