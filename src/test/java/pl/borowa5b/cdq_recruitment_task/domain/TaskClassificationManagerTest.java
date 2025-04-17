@@ -35,6 +35,7 @@ class TaskClassificationManagerTest {
     void shouldBeginClassification() {
         // given
         final var taskId = new TaskId("TSK123124");
+        final var fieldName = "fieldName";
         final var valueBefore = "John";
         final var currentValue = "John Doe";
         when(taskRepository.findBy(taskId)).thenReturn(new Task(taskId));
@@ -42,7 +43,7 @@ class TaskClassificationManagerTest {
         when(taskResultIdGenerator.generate()).thenReturn(new TaskResultId("TKR1232421"));
 
         // when
-        taskClassificationManager.beginClassification(taskId, valueBefore, currentValue);
+        taskClassificationManager.beginClassification(taskId, fieldName, valueBefore, currentValue);
 
         // then
         verify(taskClassificator).classificate(valueBefore, currentValue);

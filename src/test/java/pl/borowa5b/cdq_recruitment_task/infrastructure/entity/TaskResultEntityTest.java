@@ -16,6 +16,7 @@ class TaskResultEntityTest {
         final var taskResult = new TaskResult(
                 new TaskResultId("TKR1232421"),
                 new TaskId("TSK2423432"),
+                "fieldName",
                 "valueBefore",
                 "currentValue",
                 0.5,
@@ -29,6 +30,7 @@ class TaskResultEntityTest {
         assertThat(result).isExactlyInstanceOf(TaskResultEntity.class);
         assertThat(result.getId()).isEqualTo(taskResult.id().value());
         assertThat(result.getTaskId()).isEqualTo(taskResult.taskId().value());
+        assertThat(result.getFieldName()).isEqualTo(taskResult.fieldName());
         assertThat(result.getValueBefore()).isEqualTo(taskResult.valueBefore());
         assertThat(result.getCurrentValue()).isEqualTo(taskResult.currentValue());
         assertThat(result.getDissimilarity()).isEqualTo(taskResult.dissimilarity());
@@ -41,6 +43,7 @@ class TaskResultEntityTest {
         final var entity = TaskResultEntity.fromDomain(new TaskResult(
                 new TaskResultId("TKR1232421"),
                 new TaskId("TSK2423432"),
+                "fieldName",
                 "valueBefore",
                 "currentValue",
                 0.5,
@@ -54,6 +57,7 @@ class TaskResultEntityTest {
         assertThat(result).isExactlyInstanceOf(TaskResult.class);
         assertThat(result.id().value()).isEqualTo(entity.getId());
         assertThat(result.taskId().value()).isEqualTo(entity.getTaskId());
+        assertThat(result.fieldName()).isEqualTo(entity.getFieldName());
         assertThat(result.valueBefore()).isEqualTo(entity.getValueBefore());
         assertThat(result.currentValue()).isEqualTo(entity.getCurrentValue());
         assertThat(result.dissimilarity()).isEqualTo(entity.getDissimilarity());

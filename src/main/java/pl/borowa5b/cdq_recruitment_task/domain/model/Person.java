@@ -12,6 +12,11 @@ import java.util.ArrayList;
 @AllArgsConstructor
 public class Person implements Cloneable {
 
+    public static final String NAME_FIELD = "name";
+    public static final String SURNAME_FIELD = "surname";
+    public static final String BIRTH_DATE_FIELD = "birthDate";
+    public static final String COMPANY_FIELD = "company";
+
     private PersonId id;
     private String name;
     private String surname;
