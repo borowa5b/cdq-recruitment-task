@@ -2,23 +2,20 @@ package pl.borowa5b.cdq_recruitment_task.helper;
 
 import org.junit.jupiter.api.extension.ExtensionContext;
 import org.springframework.test.context.junit.jupiter.SpringExtension;
-import org.testcontainers.containers.PostgreSQLContainer;
+import org.testcontainers.containers.MongoDBContainer;
 
 class IntegrationTestLifecycleManager extends SpringExtension implements ExtensionContext.Store.CloseableResource {
 
-    private static Boolean IS_POSTGRES_CONTAINER_RUNNING = false;
+    private static Boolean IS_MONGO_CONTAINER_RUNNING = false;
 
-    private final PostgreSQLContainer<?> postgreSQLContainer = new PostgreSQLContainer<>("postgres:16-alpine")
-            .withDatabaseName("cdq-recruitment-task")
-            .withUsername("postgres")
-            .withPassword("postgres");
+    private final MongoDBContainer mongoDbContainer = new MongoDBContainer("mongo");
 
     @Override
     public void beforeAll(final ExtensionContext context) {
-        if (!IS_POSTGRES_CONTAINER_RUNNING) {
-            IS_POSTGRES_CONTAINER_RUNNING = true;
-            postgreSQLContainer.start();
-            setPostgreSQLProperties();
+        if (!IS_MONGO_CONTAINER_RUNNING) {
+            IS_MONGO_CONTAINER_RUNNING = true;
+            mongoDbContainer.start();
+            setMongoDbProperties();
         }
     }
 
@@ -29,16 +26,13 @@ class IntegrationTestLifecycleManager extends SpringExtension implements Extensi
 
     @Override
     public void close() throws Throwable {
-        if (IS_POSTGRES_CONTAINER_RUNNING) {
-            IS_POSTGRES_CONTAINER_RUNNING = false;
-            postgreSQLContainer.stop();
+        if (IS_MONGO_CONTAINER_RUNNING) {
+            IS_MONGO_CONTAINER_RUNNING = false;
+            mongoDbContainer.stop();
         }
     }
 
-    private void setPostgreSQLProperties() {
-        System.setProperty("spring.datasource.url", postgreSQLContainer.getJdbcUrl());
-        System.setProperty("spring.datasource.username", postgreSQLContainer.getUsername());
-        System.setProperty("spring.datasource.password", postgreSQLContainer.getPassword());
-
+    private void setMongoDbProperties() {
+        System.setProperty("spring.data.mongodb.uri", mongoDbContainer.getReplicaSetUrl());
     }
 }

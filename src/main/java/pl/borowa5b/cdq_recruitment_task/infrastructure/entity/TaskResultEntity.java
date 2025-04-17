@@ -1,44 +1,39 @@
 package pl.borowa5b.cdq_recruitment_task.infrastructure.entity;
 
-import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.annotation.Version;
+import org.springframework.data.mongodb.core.mapping.Document;
 import pl.borowa5b.cdq_recruitment_task.domain.vo.Classification;
 import pl.borowa5b.cdq_recruitment_task.domain.vo.TaskId;
 import pl.borowa5b.cdq_recruitment_task.domain.vo.TaskResult;
 import pl.borowa5b.cdq_recruitment_task.domain.vo.TaskResultId;
 
 import java.time.OffsetDateTime;
-import java.time.ZoneOffset;
 
+@Setter
 @Getter
-@Entity(name = "task_result")
 @NoArgsConstructor(force = true)
+@Document(collection = "task_result")
 public class TaskResultEntity {
 
     @Id
-    private final String id;
-    private final String taskId;
-    private final String valueBefore;
-    private final String currentValue;
-    private final Double dissimilarity;
-    @Enumerated(EnumType.STRING)
-    private final Classification classification;
+    private String id;
+    private String taskId;
+    private String valueBefore;
+    private String currentValue;
+    private Double dissimilarity;
+    private Classification classification;
+    @CreatedDate
     private OffsetDateTime creationDate;
+    @LastModifiedDate
     private OffsetDateTime modificationDate;
     @Version
     private Long entityVersion;
-
-    @PrePersist
-    public void prePersist() {
-        creationDate = OffsetDateTime.now(ZoneOffset.UTC);
-        modificationDate = OffsetDateTime.now(ZoneOffset.UTC);
-    }
-
-    @PreUpdate
-    public void preUpdate() {
-        modificationDate = OffsetDateTime.now(ZoneOffset.UTC);
-    }
 
     private TaskResultEntity(final String id,
                              final String taskId,

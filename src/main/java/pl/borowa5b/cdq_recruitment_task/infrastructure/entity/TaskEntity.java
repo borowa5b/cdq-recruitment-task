@@ -1,54 +1,44 @@
 package pl.borowa5b.cdq_recruitment_task.infrastructure.entity;
 
-import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.annotation.Version;
+import org.springframework.data.mongodb.core.mapping.Document;
 import pl.borowa5b.cdq_recruitment_task.domain.model.Task;
 import pl.borowa5b.cdq_recruitment_task.domain.model.TaskStatus;
 import pl.borowa5b.cdq_recruitment_task.domain.vo.Stage;
 import pl.borowa5b.cdq_recruitment_task.domain.vo.TaskId;
 
 import java.time.OffsetDateTime;
-import java.time.ZoneOffset;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
 
+@Setter
 @Getter
-@Entity(name = "task")
+@Document(collection = "task")
 @NoArgsConstructor(force = true)
 public class TaskEntity {
 
     @Id
-    private final String id;
-    @Enumerated(EnumType.STRING)
-    @Setter
+    private String id;
     private Stage stage;
-    @Setter
-    private int progress;
-    @Setter
-    @OneToMany(mappedBy = "id", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    private Integer progress;
     private List<TaskResultEntity> result;
+    @CreatedDate
     private OffsetDateTime creationDate;
+    @LastModifiedDate
     private OffsetDateTime modificationDate;
     @Version
     private Long entityVersion;
 
-    @PrePersist
-    public void prePersist() {
-        creationDate = OffsetDateTime.now(ZoneOffset.UTC);
-        modificationDate = OffsetDateTime.now(ZoneOffset.UTC);
-    }
-
-    @PreUpdate
-    public void preUpdate() {
-        modificationDate = OffsetDateTime.now(ZoneOffset.UTC);
-    }
-
     private TaskEntity(final String id,
                        final Stage stage,
-                       final int progress,
+                       final Integer progress,
                        final List<TaskResultEntity> result) {
         this.id = id;
         this.stage = stage;
@@ -60,13 +50,14 @@ public class TaskEntity {
         return new Task(
                 new TaskId(id),
                 new TaskStatus(stage, progress),
-                Objects.requireNonNull(result).stream().map(TaskResultEntity::toDomain).collect(Collectors.toList())
+                Objects.requireNonNull(result).stream().map(TaskResultEntity::toDomain).collect(Collectors.toList()),
+                creationDate
         );
     }
 
     public static TaskEntity fromDomain(final Task task) {
         return new TaskEntity(
-                task.getId().value(),
+                task.getId() != null ? task.getId().value() : null,
                 task.getStage(),
                 task.getProgress(),
                 task.getResults() != null
